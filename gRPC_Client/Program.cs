@@ -5,33 +5,43 @@ using GrpcService1;
 
 // The port number must match the port of the gRPC server.
 
-// Как передать условно ip?
 using var channel = GrpcChannel.ForAddress("https://localhost:7106");
 var client = new Greeter.GreeterClient(channel);
 
 using var call = client.SayHelloStream();
 
-var readTask = Task.Run(async () =>
+Console.WriteLine("Please, enter your name...");
+var name = Console.ReadLine();
+await call.RequestStream.WriteAsync(new HelloRequest() { Name = name });
+
+var recieve = Task.Run(async () =>
 {
-   await foreach (var res in call.ResponseStream.ReadAllAsync())
+   while (true)
    {
-      Console.WriteLine(res.Message);
+      await foreach (var res in call.ResponseStream.ReadAllAsync())
+      {
+         Console.WriteLine(res.Message);
+      }
    }
 });
 
-while(true)
+var send = Task.Run(async () =>
 {
-   var result = Console.ReadLine();
+   while(true)
+   {
+      var result = Console.ReadLine();
 
-   if (string.IsNullOrEmpty(result))
-   { 
-      break; 
+      if (string.IsNullOrEmpty(result))
+      { 
+         break; 
+      }
+
+      await call.RequestStream.WriteAsync(new HelloRequest() { Message = result });
    }
 
-   await call.RequestStream.WriteAsync(new HelloRequest() { Name = result });
-}
-
-await call.RequestStream.CompleteAsync();
-await readTask;
+   await call.RequestStream.CompleteAsync();
+});
+await send;
+await recieve;
 
 Console.ReadKey();
