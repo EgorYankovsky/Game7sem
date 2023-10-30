@@ -20,7 +20,38 @@ var recieve = Task.Run(async () =>
    {
       await foreach (var res in call.ResponseStream.ReadAllAsync())
       {
-         Console.WriteLine(res.Message);
+         switch (res.Message)
+         {
+            case "W":
+            case "w":
+               {
+                  Console.WriteLine("Moved up");
+                  break;
+               }
+            case "S":
+            case "s":
+               {
+                  Console.WriteLine("Moved down");
+                  break;
+               }
+            case "A":
+            case "a":
+               {
+                  Console.WriteLine("Moved left");
+                  break;
+               }
+            case "D":
+            case "d":
+               {
+                  Console.WriteLine("Moved right");
+                  break;
+               }
+            default:
+               {
+                  Console.WriteLine("Unknown?");
+                  break;
+               }
+         }
       }
    }
 });
@@ -29,17 +60,9 @@ var send = Task.Run(async () =>
 {
    while(true)
    {
-      var result = Console.ReadLine();
-
-      if (string.IsNullOrEmpty(result))
-      { 
-         break; 
-      }
-
-      await call.RequestStream.WriteAsync(new HelloRequest() { Message = result });
+      var result = Console.ReadKey();
+      await call.RequestStream.WriteAsync(new HelloRequest() { Message = result.Key.ToString() });
    }
-
-   await call.RequestStream.CompleteAsync();
 });
 await send;
 await recieve;

@@ -10,6 +10,17 @@ service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply);
   rpc SayHelloStream (stream HelloRequest) returns (stream HelloReply);
 }
+/*
+service Character {
+	// Пока так
+	rpc Move (stream MoveRequest) returns (google.protobuf.Empty);
+	rpc Act (MoveRequest) returns (google.protobuf.Empty);
+}
+
+message MoveRequest {
+	int32 x = 1;
+	int32 y = 2;
+}*/
 
 // The request message containing the user's name.
 message HelloRequest {
