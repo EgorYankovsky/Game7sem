@@ -70,7 +70,7 @@ namespace GrpcService1.Services
 
       public async Task SendBroadcastMessage(string messageBody)
       {
-         var message = new HelloReply { Message = DateTime.UtcNow + " " + messageBody };
+         var message = new HelloReply { Message = messageBody };
          var tasks = new List<Task>() { };
 
          foreach (KeyValuePair<string, IServerStreamWriter<HelloReply>> client in clients)
