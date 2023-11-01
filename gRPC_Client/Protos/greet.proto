@@ -6,20 +6,18 @@ package greet;
 
 // The greeting service definition.
 service Greeter {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply);
-  rpc SayHelloStream (stream HelloRequest) returns (stream HelloReply);
+  rpc ActionStream (stream ActionRequest) returns (stream ActionReply);
 }
 
-// The request message containing the user's name.
-message HelloRequest {
+message ActionRequest {
+	// string в 2, 3 лучше заменить на что-то подходящее.
 	oneof content {
 		string name = 1;
-		string message = 2;
+		string motion = 2;
+		string force = 3;
 	}
 }
 
-// The response message containing the greetings.
-message HelloReply {
-  string message = 1;
+message ActionReply {
+	string answer = 1;
 }

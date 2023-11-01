@@ -4,67 +4,75 @@ using Grpc.Net.Client;
 using GrpcService1;
 
 // The port number must match the port of the gRPC server.
-
-using var channel = GrpcChannel.ForAddress("https://localhost:7106");
-var client = new Greeter.GreeterClient(channel);
-
-using var call = client.SayHelloStream();
-
-Console.WriteLine("Please, enter your name...");
-var name = Console.ReadLine();
-await call.RequestStream.WriteAsync(new HelloRequest() { Name = name });
-
-var recieve = Task.Run(async () =>
+Console.WriteLine("Type localhost or required ip");
+string? address;
+address = Console.ReadLine();
+bool isConnected = false;
+while (!isConnected)
 {
-   while (true)
+   using var sw = new StreamWriter("Info.txt");
+   var channel = GrpcChannel.ForAddress($"https://{address}");
+   sw.WriteLine($"1. {channel.State}");
+   var client = new Greeter.GreeterClient(channel);
+   sw.WriteLine($"2. {channel.State}");
+   using var call = client.ActionStream();
+
+   sw.WriteLine($"3. {channel.State}");
+   while (channel.State == ConnectivityState.Connecting)
+      continue;
+
+   sw.WriteLine($"4. {channel.State}");
+   if (channel.State == ConnectivityState.Ready)
    {
-      await foreach (var res in call.ResponseStream.ReadAllAsync())
+      isConnected = true;
+      Console.WriteLine("Please, enter your name...");
+      var name = Console.ReadLine();
+      await call.RequestStream.WriteAsync(new ActionRequest() { Name = name });
+
+      var recieve = Task.Run(async () =>
       {
-         switch (res.Message)
+         while (true)
          {
-            case "W":
-            case "w":
-               {
-                  Console.WriteLine("Moved up");
-                  break;
-               }
-            case "S":
-            case "s":
-               {
-                  Console.WriteLine("Moved down");
-                  break;
-               }
-            case "A":
-            case "a":
-               {
-                  Console.WriteLine("Moved left");
-                  break;
-               }
-            case "D":
-            case "d":
-               {
-                  Console.WriteLine("Moved right");
-                  break;
-               }
-            default:
-               {
-                  Console.WriteLine("Unknown?");
-                  break;
-               }
+            await foreach (var res in call.ResponseStream.ReadAllAsync())
+            {
+               Console.WriteLine(res.Answer);
+            }
          }
-      }
-   }
-});
+      });
 
-var send = Task.Run(async () =>
-{
-   while(true)
+      var send = Task.Run(async () =>
+      {
+         bool isDisposed = false;
+         while (!isDisposed)
+         {
+            var button = Console.ReadKey();
+            Console.WriteLine(button.KeyChar);
+            switch (button.KeyChar)
+            {
+               case 'w' or 'W' or 's' or 'S' or 'a' or 'A' or 'd' or 'D':
+                  await call.RequestStream.WriteAsync(new ActionRequest() { Motion = button.Key.ToString() });
+                  break;
+               case 'f' or 'F':
+                  await call.RequestStream.WriteAsync(new ActionRequest() { Force = button.Key.ToString() });
+                  break;
+               case 'q' or 'Q':
+                  call.Dispose();
+                  isDisposed = true;
+                  break;
+               default:
+                  Console.WriteLine("Unknown action!");
+                  break;
+            }
+         }
+      });
+      await send;
+      await recieve;
+   }
+   else if (channel.State == ConnectivityState.TransientFailure)
    {
-      var result = Console.ReadKey();
-      await call.RequestStream.WriteAsync(new HelloRequest() { Message = result.Key.ToString() });
+      Console.WriteLine("Error during connection");
+      Console.WriteLine("Type localhost or required ip");
+      address = Console.ReadLine();
    }
-});
-await send;
-await recieve;
-
+}
 Console.ReadKey();
