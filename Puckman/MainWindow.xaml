@@ -1,0 +1,58 @@
+﻿<Window x:Class="PAC_Man_Game_WPF_MOO_ICT.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PAC_Man_Game_WPF_MOO_ICT"
+        mc:Ignorable="d"
+        Title="PAC Man Game WPF MOO ICT" Height="685" Width="965">
+    <Canvas Name="MyCanvas" KeyDown="CanvasKeyDown" KeyUp="CanvasKeyUp" Focusable="True" Background="White">
+        <Rectangle Tag="floor" Height="630" Width="950" Canvas.Left="0" Canvas.Top="20">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/map.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="pacman" Width="30" Height="30" Fill="Yellow" Canvas.Left="100" Canvas.Top="260" />
+        <Rectangle Name="orangeGuy" Tag="ghost" Width="30" Height="30" Fill="Orange" Canvas.Left="649" Canvas.Top="187" RenderTransformOrigin="0.563,1.376" HorizontalAlignment="Center" VerticalAlignment="Top" />
+        <Rectangle Name="pinkGuy" Tag="ghost" Width="30" Height="30" Fill="Pink" Canvas.Left="173" Canvas.Top="424" />
+        <Rectangle Name="picture1" Tag="wall" Width="120" Height="99" Canvas.Left="147" Canvas.Top="124">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="picture2" Tag="wall" Width="120" Height="99" Canvas.Left="414" Canvas.Top="124">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="picture3" Tag="wall" Width="120" Height="99" Canvas.Left="681" Canvas.Top="124">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="picture4" Tag="wall" Width="120" Height="99" Canvas.Left="147" Canvas.Top="462">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="picture5" Tag="wall" Width="120" Height="99" Canvas.Left="414" Canvas.Top="462">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Name="picture6" Tag="wall" Width="120" Height="99" Canvas.Left="681" Canvas.Top="462">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="../NewFolder1/Picture_preview_transparent.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Tag="wall" Height="40" Width="950" Canvas.Left="5" Canvas.Top="25">
+        </Rectangle>
+        <Rectangle Tag="wall" Height="40" Width="950" Canvas.Left="5" Canvas.Top="615">
+        </Rectangle>
+        <Rectangle Tag="wall" Height="630" Width="12" Canvas.Left="10" Canvas.Top="25">
+        </Rectangle>
+        <Rectangle Tag="wall" Height="630" Width="20" Canvas.Left="928" Canvas.Top="25">
+        </Rectangle>
+        <TextBlock FontSize="16" Name="txtScore" Foreground="Black" />
+    </Canvas>
+</Window>

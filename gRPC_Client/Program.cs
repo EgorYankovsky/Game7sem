@@ -5,7 +5,7 @@ using GrpcService1;
 
 // The port number must match the port of the gRPC server.
 
-using var channel = GrpcChannel.ForAddress("https://localhost:7106");
+using var channel = GrpcChannel.ForAddress("http://25.38.12.165:7106");
 var client = new Greeter.GreeterClient(channel);
 
 using var call = client.SayHelloStream();

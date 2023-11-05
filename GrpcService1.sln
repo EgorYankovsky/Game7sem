@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcService1", "GrpcService1\GrpcService1.csproj", "{99B2921C-FCFC-497E-BD51-3C9ABF41B114}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrpcService1", "GrpcService1\GrpcService1.csproj", "{99B2921C-FCFC-497E-BD51-3C9ABF41B114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gRPC_Client", "gRPC_Client\gRPC_Client.csproj", "{90B1410A-8C43-4D2B-A746-04EFA7F68CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gRPC_Client", "gRPC_Client\gRPC_Client.csproj", "{90B1410A-8C43-4D2B-A746-04EFA7F68CB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Puckman", "Puckman\Puckman.csproj", "{1C237632-BEDE-4E66-9430-228DC4938A89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{90B1410A-8C43-4D2B-A746-04EFA7F68CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90B1410A-8C43-4D2B-A746-04EFA7F68CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90B1410A-8C43-4D2B-A746-04EFA7F68CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C237632-BEDE-4E66-9430-228DC4938A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C237632-BEDE-4E66-9430-228DC4938A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C237632-BEDE-4E66-9430-228DC4938A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C237632-BEDE-4E66-9430-228DC4938A89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
