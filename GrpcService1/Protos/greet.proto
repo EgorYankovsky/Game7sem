@@ -6,7 +6,7 @@ package greet;
 
 // The greeting service definition.
 service Greeter {
-  rpc ActionStream (stream ActionRequest) returns (stream ActionReply);
+    rpc ActionStream (stream ActionRequest) returns (stream ActionReply);
 }
 
 message ActionRequest {
@@ -14,6 +14,7 @@ message ActionRequest {
 		string name = 1;
 		string motion = 2;
 		string force = 3;
+		string quit = 4;
 	}
 }
 

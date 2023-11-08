@@ -7,37 +7,27 @@ using GrpcService1;
 Console.WriteLine("Type localhost or required ip");
 string? address;
 address = Console.ReadLine();
-bool isConnected = false;
-while (!isConnected)
+bool isConnected = true;
+while (isConnected)
 {
-   using var sw = new StreamWriter("Info.txt");
-   var channel = GrpcChannel.ForAddress($"https://{address}");
-   sw.WriteLine($"1. {channel.State}");
+   var channel = GrpcChannel.ForAddress($"http://{address}");
    var client = new Greeter.GreeterClient(channel);
-   sw.WriteLine($"2. {channel.State}");
    using var call = client.ActionStream();
 
-   sw.WriteLine($"3. {channel.State}");
    while (channel.State == ConnectivityState.Connecting)
       continue;
 
-   sw.WriteLine($"4. {channel.State}");
    if (channel.State == ConnectivityState.Ready)
    {
-      isConnected = true;
       Console.WriteLine("Please, enter your name...");
       var name = Console.ReadLine();
       await call.RequestStream.WriteAsync(new ActionRequest() { Name = name });
 
       var recieve = Task.Run(async () =>
       {
-         while (true)
-         {
+         while (isConnected)
             await foreach (var res in call.ResponseStream.ReadAllAsync())
-            {
                Console.WriteLine(res.Answer);
-            }
-         }
       });
 
       var send = Task.Run(async () =>
@@ -56,8 +46,11 @@ while (!isConnected)
                   await call.RequestStream.WriteAsync(new ActionRequest() { Force = button.Key.ToString() });
                   break;
                case 'q' or 'Q':
+                  await call.RequestStream.WriteAsync(new ActionRequest() { Quit = name });
+                  await call.RequestStream.CompleteAsync();
                   call.Dispose();
                   isDisposed = true;
+                  isConnected = false;
                   break;
                default:
                   Console.WriteLine("Unknown action!");
@@ -66,6 +59,7 @@ while (!isConnected)
          }
       });
       await send;
+      //if (isConnected) 
       await recieve;
    }
    else if (channel.State == ConnectivityState.TransientFailure)
@@ -75,4 +69,5 @@ while (!isConnected)
       address = Console.ReadLine();
    }
 }
+Console.WriteLine("Type any key to quit");
 Console.ReadKey();
